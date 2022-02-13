@@ -1,0 +1,12 @@
+<idea-plugin>
+  <id>com.github.wglanzer.rxjava.performance</id>
+  <name>RxJava Performance Monitor</name>
+
+  <vendor email="wernerglanzer@googlemail.com">Werner Glanzer</vendor>
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.java</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+  </extensions>
+</idea-plugin>
