@@ -50,13 +50,14 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
 
         try
         {
+          IStageInvocationHandler.IRegistry.INSTANCE.fireAsync(pHandler -> pHandler.handleInvocationStarted(inv));
           inv.begin();
           return (original).apply(pO);
         }
         finally
         {
           inv.end();
-          //todo do something with this invocation
+          IStageInvocationHandler.IRegistry.INSTANCE.fireAsync(pHandler -> pHandler.handleInvocationFinished(inv));
         }
       });
     }
