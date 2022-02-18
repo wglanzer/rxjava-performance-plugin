@@ -17,7 +17,7 @@ class AsyncStageInvocationHandlerRegistry implements IStageInvocationHandler.IRe
 {
   private final Executor executor = new ThreadPoolExecutor(0, 4, 30L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), new ThreadFactoryBuilder()
       .setDaemon(true)
-      .setNameFormat("tRxPerformanceInvHandler-%d")
+      .setNameFormat("tRxPerformanceAgent-InvHandler-%d")
       .setPriority(Thread.MIN_PRIORITY)
       .build());
   private final ReadWriteLock lock = new ReentrantReadWriteLock();
