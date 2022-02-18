@@ -11,7 +11,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":monitor"))
+    implementation(project(":agent"))
 }
 
 // Configure Gradle IntelliJ Plugin

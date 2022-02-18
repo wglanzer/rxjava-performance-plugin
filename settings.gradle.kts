@@ -1,5 +1,5 @@
 rootProject.name = "rxjava-performance-monitor"
 
 // Sub-Modules
-include("monitor")
+include("agent")
 include("plugin")
