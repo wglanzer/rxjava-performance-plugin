@@ -71,8 +71,8 @@ public class PerformanceClient
       {
         try
         {
-          StageInvocationEvents events = gson.fromJson(buffer.toString(), StageInvocationEvents.class);
-          List<StageInvocationEvent> allEvents = events.events;
+          InvocationEvents events = gson.fromJson(buffer.toString(), InvocationEvents.class);
+          List<InvocationEvent> allEvents = events.events;
           if (allEvents != null)
             eventRepository._addEvents(allEvents);
         }
@@ -143,7 +143,7 @@ public class PerformanceClient
      *
      * @param pEvents events to add
      */
-    private void _addEvents(@NotNull List<StageInvocationEvent> pEvents)
+    private void _addEvents(@NotNull List<InvocationEvent> pEvents)
     {
       Lock wLock = lock.readLock();
       try

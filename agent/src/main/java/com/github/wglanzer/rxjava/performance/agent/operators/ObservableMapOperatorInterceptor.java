@@ -12,9 +12,9 @@ public class ObservableMapOperatorInterceptor extends AbstractOperatorIntercepto
 {
 
   @Override
-  public void onStageCreated(@NotNull Object pStage)
+  public void onOperatorCreated(@NotNull Object pOperator)
   {
-    applyWrapperToFunction(pStage, "mapper");
+    applyWrapperToFunction(pOperator, "function");
   }
 
   @NotNull
@@ -22,13 +22,6 @@ public class ObservableMapOperatorInterceptor extends AbstractOperatorIntercepto
   public String getOperatorClassName()
   {
     return "io.reactivex.rxjava3.internal.operators.observable.ObservableMap";
-  }
-
-  @NotNull
-  @Override
-  public String getStageClassName()
-  {
-    return getOperatorClassName() + "$MapObserver";
   }
 
 }

@@ -52,7 +52,6 @@ public class PerformanceAgent
             try
             {
               return builder
-                  .defineField(IOperatorInterceptor.OPERATOR_CREATOR_FIELDNAME, Throwable.class)
                   .constructor(ElementMatchers.any())
                   .intercept(SuperMethodCall.INSTANCE.andThen(MethodCall.invoke(interceptor.getOnOperatorCreatedMethod())
                                                                   .on(interceptor)
@@ -61,24 +60,6 @@ public class PerformanceAgent
             catch (Exception e)
             {
               _LOGGER.log(Level.WARNING, "Failed to apply operator interceptor " + interceptor.getClass().getName(), e);
-              return builder;
-            }
-          })
-
-          //onStageCreated
-          .type(ElementMatchers.named(interceptor.getStageClassName()))
-          .transform((builder, typeDescription, classLoader, module) -> {
-            try
-            {
-              return builder
-                  .constructor(ElementMatchers.any())
-                  .intercept(SuperMethodCall.INSTANCE.andThen(MethodCall.invoke(interceptor.getOnStageCreatedMethod())
-                                                                  .on(interceptor)
-                                                                  .withThis()));
-            }
-            catch (Exception e)
-            {
-              _LOGGER.log(Level.WARNING, "Failed to apply stage interceptor " + interceptor.getClass().getName(), e);
               return builder;
             }
           });

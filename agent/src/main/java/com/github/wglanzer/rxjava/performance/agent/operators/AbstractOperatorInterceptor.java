@@ -1,12 +1,11 @@
 package com.github.wglanzer.rxjava.performance.agent.operators;
 
-import com.github.wglanzer.rxjava.performance.agent.stages.*;
+import com.github.wglanzer.rxjava.performance.agent.invocations.*;
 import io.reactivex.rxjava3.functions.Function;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
-import java.util.logging.*;
 
 /**
  * @author w.glanzer, 17.02.2022
@@ -14,24 +13,9 @@ import java.util.logging.*;
 abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
 {
 
-  @Override
-  public void onOperatorCreated(@NotNull Object pOperator)
-  {
-    try
-    {
-      Field field = pOperator.getClass().getDeclaredField(OPERATOR_CREATOR_FIELDNAME);
-      field.setAccessible(true);
-      field.set(pOperator, new Exception());
-    }
-    catch (Throwable e)
-    {
-      Logger.getLogger(getClass().getName()).log(Level.WARNING, "", e);
-    }
-  }
-
   /**
    * This method can be used, if pObject contains a field pFieldName of type Function.
-   * It wraps this function into a new one, that tracks its calls into StageInvocations
+   * It wraps this function into a new one, that tracks its calls into Invocations
    *
    * @param pObject    Object that contains a function
    * @param pFieldName Name of the function variable
@@ -42,22 +26,22 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
     {
       Field field = pObject.getClass().getDeclaredField(pFieldName);
       field.setAccessible(true);
-      _Stage stage = new _Stage();
+      _Operator operator = new _Operator();
       //noinspection unchecked
       Function<Object, Object> original = (Function<Object, Object>) field.get(pObject);
       field.set(pObject, (Function<Object, Object>) pO -> {
-        _StageInvocation inv = new _StageInvocation(stage);
+        _OperatorInvocation inv = new _OperatorInvocation(operator);
 
         try
         {
-          IStageInvocationHandler.IRegistry.INSTANCE.fireAsync(pHandler -> pHandler.handleInvocationStarted(inv));
+          IOperatorInvocationHandler.IRegistry.INSTANCE.fireAsync(pHandler -> pHandler.handleInvocationStarted(inv));
           inv.begin();
           return (original).apply(pO);
         }
         finally
         {
           inv.end();
-          IStageInvocationHandler.IRegistry.INSTANCE.fireAsync(pHandler -> pHandler.handleInvocationFinished(inv));
+          IOperatorInvocationHandler.IRegistry.INSTANCE.fireAsync(pHandler -> pHandler.handleInvocationFinished(inv));
         }
       });
     }
@@ -68,13 +52,13 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
   }
 
   /**
-   * Stage-Impl
+   * Operator-Impl
    */
-  private static class _Stage implements IStage
+  private static class _Operator implements IOperator
   {
     private final String id;
 
-    public _Stage()
+    public _Operator()
     {
       id = UUID.randomUUID().toString();
     }
@@ -88,24 +72,24 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
   }
 
   /**
-   * StageInvocation-Impl
+   * OperatorInvocation-Impl
    */
-  private static class _StageInvocation implements IStageInvocation
+  private static class _OperatorInvocation implements IOperatorInvocation
   {
-    private final _Stage stage;
+    private final _Operator operator;
     private long start;
     private long end;
 
-    public _StageInvocation(@NotNull _Stage pStage)
+    public _OperatorInvocation(@NotNull _Operator pOperator)
     {
-      stage = pStage;
+      operator = pOperator;
     }
 
     @NotNull
     @Override
-    public IStage getStage()
+    public IOperator getOperator()
     {
-      return stage;
+      return operator;
     }
 
     @Override

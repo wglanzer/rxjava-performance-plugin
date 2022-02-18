@@ -9,12 +9,12 @@ import java.util.List;
  *
  * @author w.glanzer, 18.02.2022
  */
-public class StageInvocationEvents
+public class InvocationEvents
 {
 
-  public List<StageInvocationEvent> events;
+  public List<InvocationEvent> events;
 
-  public StageInvocationEvents(@NotNull List<StageInvocationEvent> pEvents)
+  public InvocationEvents(@NotNull List<InvocationEvent> pEvents)
   {
     events = pEvents;
   }

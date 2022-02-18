@@ -1,44 +1,44 @@
-package com.github.wglanzer.rxjava.performance.agent.stages;
+package com.github.wglanzer.rxjava.performance.agent.invocations;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
 /**
- * This handler cares about notifying others about a happened stage invocation
+ * This handler cares about notifying others about a happened operator invocation
  *
  * @author w.glanzer, 17.02.2022
- * @see IStage
- * @see IStageInvocation
+ * @see IOperator
+ * @see IOperatorInvocation
  */
-public interface IStageInvocationHandler
+public interface IOperatorInvocationHandler
 {
 
   /**
-   * Gets called if an invocation of a stage started
+   * Gets called if an invocation of an operator started
    *
    * @param pInvocation the invocation
    */
-  void handleInvocationStarted(@NotNull IStageInvocation pInvocation);
+  void handleInvocationStarted(@NotNull IOperatorInvocation pInvocation);
 
   /**
-   * Gets called if an invocation of a stage finished
+   * Gets called if an invocation of an operator finished
    *
    * @param pInvocation the invocation
    */
-  void handleInvocationFinished(@NotNull IStageInvocation pInvocation);
+  void handleInvocationFinished(@NotNull IOperatorInvocation pInvocation);
 
   /**
    * Registry for all InvocationHandlers
    *
-   * @see IStageInvocationHandler
+   * @see IOperatorInvocationHandler
    */
   interface IRegistry
   {
     /**
      * Default Instance
      */
-    IRegistry INSTANCE = new AsyncStageInvocationHandlerRegistry();
+    IRegistry INSTANCE = new AsyncOperatorInvocationHandlerRegistry();
 
     /**
      * Adds a new handler to this registry.
@@ -46,7 +46,7 @@ public interface IStageInvocationHandler
      *
      * @param pHandler handler to add
      */
-    void addHandler(@NotNull IStageInvocationHandler pHandler);
+    void addHandler(@NotNull IOperatorInvocationHandler pHandler);
 
     /**
      * Removes the given handler from the registry.
@@ -54,14 +54,14 @@ public interface IStageInvocationHandler
      *
      * @param pHandler handler to remove
      */
-    void removeHandler(@NotNull IStageInvocationHandler pHandler);
+    void removeHandler(@NotNull IOperatorInvocationHandler pHandler);
 
     /**
      * Fires events to all currently known invocation handlers asynchronously
      *
      * @param pHandlerConsumer consumer that gets all handlers, async
      */
-    void fireAsync(@NotNull Consumer<IStageInvocationHandler> pHandlerConsumer);
+    void fireAsync(@NotNull Consumer<IOperatorInvocationHandler> pHandlerConsumer);
   }
 
 }

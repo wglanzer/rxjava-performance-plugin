@@ -7,15 +7,15 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author w.glanzer, 18.02.2022
  */
-public class StageInvocationEvent
+public class InvocationEvent
 {
 
-  public String stageID;
+  public String operatorID;
   public long duration;
 
-  public StageInvocationEvent(@NotNull String pStageID, long pDuration)
+  public InvocationEvent(@NotNull String pOperatorID, long pDuration)
   {
-    stageID = pStageID;
+    operatorID = pOperatorID;
     duration = pDuration;
   }
 

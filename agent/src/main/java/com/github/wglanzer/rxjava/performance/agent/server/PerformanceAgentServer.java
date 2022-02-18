@@ -1,6 +1,6 @@
 package com.github.wglanzer.rxjava.performance.agent.server;
 
-import com.github.wglanzer.rxjava.performance.agent.stages.*;
+import com.github.wglanzer.rxjava.performance.agent.invocations.*;
 import com.github.wglanzer.rxjava.performance.agent.util.ThreadFactoryBuilder;
 import com.github.wglanzer.rxjava.performance.server.events.*;
 import com.google.gson.Gson;
@@ -60,12 +60,12 @@ public class PerformanceAgentServer
   /**
    * StreamHandler-Impl providing the invocations
    */
-  private static class _StreamHandler extends AbstractStreamHandler implements IStageInvocationHandler
+  private static class _StreamHandler extends AbstractStreamHandler implements IOperatorInvocationHandler
   {
     private static final int _SENDING_MS = 1000;
     private static final Gson _GSON = new Gson();
     private final ScheduledExecutorService sendingExecutor = Executors.newSingleThreadScheduledExecutor();
-    private final List<StageInvocationEvent> queue = new LinkedList<>();
+    private final List<InvocationEvent> queue = new LinkedList<>();
     private ScheduledFuture<?> sendingFuture;
 
     @Override
@@ -97,17 +97,17 @@ public class PerformanceAgentServer
     }
 
     @Override
-    public void handleInvocationStarted(@NotNull IStageInvocation pInvocation)
+    public void handleInvocationStarted(@NotNull IOperatorInvocation pInvocation)
     {
       // nothing
     }
 
     @Override
-    public void handleInvocationFinished(@NotNull IStageInvocation pInvocation)
+    public void handleInvocationFinished(@NotNull IOperatorInvocation pInvocation)
     {
       synchronized (queue)
       {
-        queue.add(new StageInvocationEvent(pInvocation.getStage().getID(), pInvocation.getDurationNS()));
+        queue.add(new InvocationEvent(pInvocation.getOperator().getID(), pInvocation.getDurationNS()));
       }
     }
 
@@ -120,7 +120,7 @@ public class PerformanceAgentServer
       IStreamSession session = getSession();
       if (session != null && session.isOpen())
       {
-        List<StageInvocationEvent> eventsToSend;
+        List<InvocationEvent> eventsToSend;
 
         synchronized (queue)
         {
@@ -129,7 +129,7 @@ public class PerformanceAgentServer
         }
 
         if (!eventsToSend.isEmpty())
-          session.writenf(_GSON.toJson(new StageInvocationEvents(eventsToSend)).getBytes(StandardCharsets.UTF_8));
+          session.writenf(_GSON.toJson(new InvocationEvents(eventsToSend)).getBytes(StandardCharsets.UTF_8));
       }
     }
   }

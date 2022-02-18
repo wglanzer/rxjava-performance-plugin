@@ -1,6 +1,6 @@
 package com.github.wglanzer.rxjava.performance.client.events;
 
-import com.github.wglanzer.rxjava.performance.server.events.StageInvocationEvent;
+import com.github.wglanzer.rxjava.performance.server.events.InvocationEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public interface IEventRepository
      *
      * @param pEvents received events
      */
-    void eventsReceived(@NotNull List<StageInvocationEvent> pEvents);
+    void eventsReceived(@NotNull List<InvocationEvent> pEvents);
   }
 
 }
