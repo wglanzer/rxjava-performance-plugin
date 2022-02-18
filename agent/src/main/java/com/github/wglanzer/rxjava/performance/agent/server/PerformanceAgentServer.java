@@ -107,7 +107,7 @@ public class PerformanceAgentServer
     {
       synchronized (queue)
       {
-        queue.add(new InvocationEvent(pInvocation.getOperator().getID(), pInvocation.getDurationNS()));
+        queue.add(new InvocationEvent(pInvocation.getOperator().getID(), pInvocation.getOperator().getName(), pInvocation.getDurationNS()));
       }
     }
 

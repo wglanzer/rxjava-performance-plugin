@@ -11,11 +11,13 @@ public class InvocationEvent
 {
 
   public String operatorID;
+  public String operatorName;
   public long duration;
 
-  public InvocationEvent(@NotNull String pOperatorID, long pDuration)
+  public InvocationEvent(@NotNull String pOperatorID, @NotNull String pOperatorName, long pDuration)
   {
     operatorID = pOperatorID;
+    operatorName = pOperatorName;
     duration = pDuration;
   }
 

@@ -26,7 +26,12 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
     {
       Field field = pObject.getClass().getDeclaredField(pFieldName);
       field.setAccessible(true);
-      _Operator operator = new _Operator();
+      _Operator operator = new _Operator(StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+                                             .walk(pStream -> pStream
+                                                 .skip(4)
+                                                 .map(Object::toString)
+                                                 .findFirst()
+                                                 .orElseGet(() -> UUID.randomUUID().toString())));
       //noinspection unchecked
       Function<Object, Object> original = (Function<Object, Object>) field.get(pObject);
       field.set(pObject, (Function<Object, Object>) pO -> {
@@ -57,10 +62,12 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
   private static class _Operator implements IOperator
   {
     private final String id;
+    private final String name;
 
-    public _Operator()
+    public _Operator(@NotNull String pName)
     {
       id = UUID.randomUUID().toString();
+      name = pName;
     }
 
     @NotNull
@@ -68,6 +75,13 @@ abstract class AbstractOperatorInterceptor implements IOperatorInterceptor
     public String getID()
     {
       return id;
+    }
+
+    @NotNull
+    @Override
+    public String getName()
+    {
+      return name;
     }
   }
 

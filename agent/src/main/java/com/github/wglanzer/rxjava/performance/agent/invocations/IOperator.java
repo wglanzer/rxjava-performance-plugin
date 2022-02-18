@@ -17,4 +17,10 @@ public interface IOperator
   @NotNull
   String getID();
 
+  /**
+   * @return name of the operator - mainly the position where it is defined
+   */
+  @NotNull
+  String getName();
+
 }
