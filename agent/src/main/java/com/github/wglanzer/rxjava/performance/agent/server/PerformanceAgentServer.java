@@ -129,7 +129,7 @@ public class PerformanceAgentServer
         }
 
         if (!eventsToSend.isEmpty())
-          session.write(_GSON.toJson(new StageInvocationEvents(eventsToSend)).getBytes(StandardCharsets.UTF_8));
+          session.writenf(_GSON.toJson(new StageInvocationEvents(eventsToSend)).getBytes(StandardCharsets.UTF_8));
       }
     }
   }
