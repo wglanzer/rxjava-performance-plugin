@@ -12,6 +12,7 @@ plugins {
 
 dependencies {
     implementation(project(":agent"))
+    implementation(project(":core"))
 }
 
 // Configure Gradle IntelliJ Plugin

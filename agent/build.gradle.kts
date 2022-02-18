@@ -4,6 +4,9 @@ plugins {
 }
 
 dependencies {
+    // Core
+    implementation(project(":core"))
+
     // Byte Buddy to modify runtime bytecode
     implementation("net.bytebuddy:byte-buddy:1.12.8")
 

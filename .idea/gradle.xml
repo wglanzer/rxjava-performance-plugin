@@ -12,7 +12,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/monitor_server" />
+            <option value="$PROJECT_DIR$/agent" />
+            <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/plugin" />
           </set>
         </option>

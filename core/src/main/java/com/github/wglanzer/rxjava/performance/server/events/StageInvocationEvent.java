@@ -1,4 +1,4 @@
-package com.github.wglanzer.rxjava.performance.agent.server;
+package com.github.wglanzer.rxjava.performance.server.events;
 
 import org.jetbrains.annotations.NotNull;
 
