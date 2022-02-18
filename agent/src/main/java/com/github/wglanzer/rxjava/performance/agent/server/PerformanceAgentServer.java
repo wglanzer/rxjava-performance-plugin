@@ -125,6 +125,7 @@ public class PerformanceAgentServer
         synchronized (queue)
         {
           eventsToSend = new ArrayList<>(queue);
+          queue.clear();
         }
 
         if (!eventsToSend.isEmpty())
