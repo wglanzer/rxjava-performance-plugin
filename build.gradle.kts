@@ -12,6 +12,8 @@ allprojects {
     version = properties("pluginVersion")
 
     apply(plugin = "java")
+    apply(plugin = "jacoco")
+    apply(plugin = "jacoco-report-aggregation")
 
     tasks {
         // Set the JVM compatibility versions
@@ -24,6 +26,10 @@ allprojects {
                 kotlinOptions.jvmTarget = it
             }
         }
+
+        test {
+            useJUnitPlatform()
+        }
     }
 
     repositories {
@@ -33,5 +39,9 @@ allprojects {
     dependencies {
         // Annotations
         compileOnly("org.jetbrains:annotations:13.0")
+
+        // JUnit 5
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     }
 }
