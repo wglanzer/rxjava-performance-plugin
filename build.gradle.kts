@@ -30,6 +30,14 @@ allprojects {
         test {
             useJUnitPlatform()
         }
+
+        withType<JacocoReport> {
+            reports {
+                xml.required.set(true)
+                csv.required.set(false)
+                html.required.set(false)
+            }
+        }
     }
 
     repositories {
