@@ -32,4 +32,10 @@ tasks {
             attributes(Pair("Premain-Class", "com.github.wglanzer.rxjava.performance.agent.PerformanceAgent"))
         }
     }
+
+    // Jacoco
+    jacoco {
+        toolVersion = "0.8.5"
+        reportsDirectory.set(file("$buildDir/jacoco"))
+    }
 }
